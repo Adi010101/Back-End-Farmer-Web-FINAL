@@ -42,7 +42,6 @@ class UserController extends Controller
             'image'=>'required|image|mimes:jpeg,png,jpg|max:2048',
             'userImage'=>'nullable|image|mimes:jpeg,png,jpg|max:2048',
             'brgy'=>'nullable',
-            'shippingfee'=>'required',
         ]);
 
         if($validator->fails())
@@ -63,6 +62,7 @@ class UserController extends Controller
             $user->username=$req->input('username');
             $user->mobilephone=$req->input('mobilephone');
             $user->email=$req->input('email');
+            $user->brgy=$req->input('brgy');
 
             if($req->hasFile('image'))
             {
@@ -75,7 +75,6 @@ class UserController extends Controller
 
             $user->verified=$req->input('verified');
             $user->brgy=$req->input('brgy');
-            $user->shippingfee=$req->input('shippingfee');
             $user->password=Hash::make($req->input('password'));
             $user->save();
 
