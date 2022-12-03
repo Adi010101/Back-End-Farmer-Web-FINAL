@@ -12,16 +12,43 @@ class CustomerController extends Controller
     //
     function registerCustomer(Request $req)
     {
-        $customer = new Customer;
-        $customer->firstname=$req->input('firstname');
-        $customer->middlename=$req->input('middlename');
-        $customer->lastname=$req->input('lastname');
-        $customer->username=$req->input('username');
-        $customer->mobilephone=$req->input('mobilephone');
-        $customer->email=$req->input('email');
-        $customer->password=Hash::make($req->input('password'));
-        $customer->save();
-        return $customer->toJson();
+        $validator = Validator::make($req->all(), [
+            'firstname'=>'required|max:50',
+            'middlename'=>'required|max:50',
+            'lastname'=>'required|max:50',
+            'username'=>'required|max:50',
+            'mobilephone'=>'nullable',
+            'email'=>'required',
+            'password'=>'required',
+        ]);
+
+        if($validator->fails())
+        {
+            return response()->json([
+                'status'=> 422,
+                'errors'=> $validator->messages(),
+            ]);
+        }
+        else
+
+        {
+            $customer = new Customer;
+            $customer->firstname=$req->input('firstname');
+            $customer->middlename=$req->input('middlename');
+            $customer->lastname=$req->input('lastname');
+            $customer->username=$req->input('username');
+            $customer->mobilephone=$req->input('mobilephone');
+            $customer->email=$req->input('email');
+            $customer->password=Hash::make($req->input('password'));
+            $customer->save();
+
+            return response()->json([
+                'status'=> 200,
+                'message' => 'Customer Registered Successfully.',
+            ]);
+        }
+
+        
     }
 
     //

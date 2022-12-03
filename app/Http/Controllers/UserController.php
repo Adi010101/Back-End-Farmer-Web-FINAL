@@ -80,7 +80,7 @@ class UserController extends Controller
 
             return response()->json([
                 'status'=> 200,
-                'message' => 'Registration Submitted',
+                'message' => 'You registration has been successfully completed.',
             ]);
         }
 
